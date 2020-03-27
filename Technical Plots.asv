@@ -1,0 +1,8 @@
+
+% Jhensen Ray Agni
+%% Technical Plots practice 
+
+%% PLOT functions
+
+t = 0:10  % time increment
+y1 = 10 * e^(-.5 * t) * sin(3 * t + 2) 
