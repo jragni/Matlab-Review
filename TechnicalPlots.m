@@ -57,5 +57,61 @@ yieldStress = [ 340 365 420 460 480 625 890];  % [Mpa]
 figure(3)
 semilogx(strainRate,yieldStress);
 hold on
+grid on
 semilogx(theoreticalStrainRate,sigma_y);
 hold off
+
+%% Histogram random sample
+Mean = 30;
+std_deviation = 6;
+dataSample = randn(1000,1).*std_deviation + Mean;  % Create random sample
+figure(4)
+hist(dataSample)
+
+%% 3D line plots 
+
+% single variable
+
+% Set time span
+
+t = 0:.1:100;  % [s] time
+
+x = 3*cos(2*t) - 3*sin(2*t);
+y = -6*sin(2*t) - 6*cos(2*t);
+z = t.^3; 
+figure(5)
+plot3(x,y,z);
+xlabel('X position [m]');
+ylabel('Y position [m]');
+zlabel('Z position [m]');
+title('Particle Motion')
+
+%% Surface Plots
+
+x = 0 : 0.1 : 5;
+y = 0 : 0.1 : 5;
+
+% two varriables
+
+[X,Y]=meshgrid(x,y);  % create vectors for the grid
+z = X.^2*cos(3*X) + -Y.^2*sin(3*Y);
+figure(6);
+surf(X,Y,z)  % plot 
+
+%% Contour Plots
+
+% multivariable
+
+x = -3 : 0.1 : 3;  % x-range
+y = -3 : 0.1 : 3;  % y-range
+
+[X,Y]= meshgrid(x,y);
+z = (X+3).^2 + (Y+3).^2 + 1.5*X.^2 - X.^2 * Y;
+figure(7);
+surf(X,Y,z);
+
+hold on
+[c,h]=contour(X,Y,z);
+clabel(c,h);
+grid on;
+
