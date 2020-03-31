@@ -1,0 +1,31 @@
+% Agni, Jhensen Ray
+% 03/30/2020
+% Develop a well-documented MATLAB program that uses the bisection root
+% finding method to calculate the deflection x when the user inputs a value
+% for the weight W and an initial bracket estimate (xl and xu). The system 
+% parameters (a, b, and k) should be assigned to variables so that they may
+% be easily changed in future applications.
+
+% W = 2*k/L * (L-L_0)(b+x)
+% L = sqrt(a^2 + (b+x)^2)
+% L_0 = sqrt(a^2 + b^2)
+
+%% Instantiate variables
+a = 8;  % [in]
+b = 6;  % [in]
+k = 16;  % [lb/in]
+error = 1  % initial error 
+err_max = 0.005;
+%% Get user inputs
+W = input('Please input the Weight of the mass: ');  % [lbs] Weight 
+xl = input('Please input lower deflection guess: ');  % [in] lower bracket
+xu = input('Please input upper deflection guess: ');  % [in] upper bracket
+
+%%
+
+% 1. Get midpoint
+x_mid =( xu + xl )/2; 
+
+% 2. get W = f(xu)
+L_0 = sqrt(a^2 + b^2);
+L = sqrt(a^2 + (b+x)^2)
