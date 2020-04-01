@@ -15,28 +15,43 @@ clear all
 a = 8;  % [in]
 b = 6;  % [in]
 k = 16;  % [lb/in]
+W = -1;  % [lb] negative in order to run the loop
 error = 1;  % initial error 
 err_max = 0.005;
 n = 0;  % iteration counter for loop
 nmax = 100;  % maximum iteration to prevent infinite looping
 %% Get user inputs
-W = input('Please input the Weight of the mass: ');  % [lbs] Weight 
-xl = input('Please input lower deflection guess: ');  % [in] lower bracket
-xu = input('Please input upper deflection guess: ');  % [in] upper bracket
+while W<0
+    % ensure Weight is greater than 0
+    W = input('Please input the Weight of the mass: ');  % [lbs] Weight
+    if(W<0)
+        disp('Please input a valid weight');
+        continue;
+    end
+    xl = input('Please input lower deflection guess: ');  % [in] lower bracket 
+    xu = input('Please input upper deflection guess: ');  % [in] upper bracket
+end
+%Check to see if xl < xu
+if (xl > xu)
+    % define new upper limit
+    xu_new = xl;
+    xl = xu;   % swap lower limit with upper limit
+    xu = xu_new ; % reinstantiate xu
+end
 
-%%
+%% Bisection Algorithm
 while (n < nmax) || (abs(error)<err_max)
     % 1. Get midpoint
     x_mid =( xu + xl )/2; 
 
     % 2. get W = f(xu)
-    W_upper = WeightFunc(xu,a,b,k)
+    W_upper = WeightFunc(xu,a,b,k);
 
     % 3. get W = f(xl)
-    W_lower = WeightFunc(xl,a,b,k)
+    W_lower = WeightFunc(xl,a,b,k);
 
     % 4. get W = f(x_mid)
-    W_mid = WeightFunc(x_mid,a,b,k)
+    W_mid = WeightFunc(x_mid,a,b,k);
 
     if W_mid > W
         xu = x_mid;
@@ -44,10 +59,10 @@ while (n < nmax) || (abs(error)<err_max)
     elseif W_mid < W
         xl = x_mid;
     end
-    error = (W - W_mid)/W
+    error = abs((W - W_mid)/W);
     n = n + 1 
     if abs(error)<= err_max || n >= nmax
         break;
     end
 end
-fprintf('Solution is %.3f inches, solved in %.f iterations, with %.2f error',x_mid,n,error);
+fprintf('Solution is %.3f inches, solved in %.f iterations, with %.3f error',x_mid,n,error);
